@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My App Website</title>
+
+    <style>
+        body{text-align: center;}
+        #enterDetails {float: left; width: 50%; background-color: skyblue; color: floralwhite;}
+        #findDetails {float: left; width: 50%; background-color: white; color: darkslategray;}
+        #appEmb{float: left; width: 100%; background-color: skyblue;}
+        input {width: 120px;}
+        
+    </style>
+</head>
+<body>
+    <img  id = "logo" src = "CSC305Icon.png" alt = "App Logo">
+    <style>
+        #logo {
+            height: 250px;
+            width: 1600px;
+        }
+    </style>
+    <div id="enterDetails">
+            <h1>Enter Details</h1>
+            <h4>ID</h4>
+            <input id="enterID" type="text">
+
+            <h4>Name</h4>
+            <input id="enterName" type="text">
+            
+            <h4>Major</h4>
+            <input id="enterMajor" type="text"> <br><br>
+
+            <h4>Favorite Color</h4>
+            <input id="enterColor" type = "text"><br><br>
+
+            <h4>Status</h4>
+            <input id = "enterStatus" type = "text"><br><br>
+
+            <button id="insert">INSERT</button>
+
+            <button id="update">UPDATE</button>
+
+            <button id="remove">REMOVE</button> <br><br>
+
+    </div>
+
+    <div id="findDetails">
+        <h1>Find by ID</h1>
+        <h4>ID</h4>
+        <input id="findID" type="text"> <br><br>
+        <button id="find">FIND</button>
+
+        <h3 id="findName" type="text"></h3>
+        <h3 id="findImage" type="image"></h3> 
+        <h3 id="findMajor" type = "text"></h3> 
+        <h3 id="findStatus" type = "text"></h3> 
+        <h3 id="findColor" type = "text"></h3> <br>
+
+        <h2>Database ID's</h2>
+        <h4>jbvAwy8jxgXKNCAvau83Y0dnOBA2</h4>
+        <h4>XWqnH6VgkPPNfY4cez85FPhZlw62</h4>
+    </div>
+    
+    <div id = "appEmb">
+        <iframe src="https://thunkable.site/w/x8gQWa3dh9d1vlpBOb2Of" title="Sign Up for JosephGram!" height = 750 width = 500 ></iframe>
+    </div>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDibZ9qFCZrqoH-db6Nx4_d6uUd3NJ9ZIs",
+          authDomain: "test-df9c7.firebaseapp.com",
+          databaseURL: "https://test-df9c7-default-rtdb.firebaseio.com",
+          projectId: "test-df9c7",
+          storageBucket: "test-df9c7.appspot.com",
+          messagingSenderId: "1035189767373",
+          appId: "1:1035189767373:web:836987fc80200dbb9b2d84"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        import {getDatabase, set, get, update, remove, ref, child}
+        from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js"
+
+        const db = getDatabase();
+
+        var enterID = document.querySelector("#enterID");
+
+        var enterName = document.querySelector("#enterName");
+
+        var enterMajor = document.querySelector("#enterMajor");
+
+        var enterColor = document.querySelector("#enterColor");
+
+        var enterStatus = document.querySelector("#enterStatus");
+
+        var findID = document.querySelector("#findID");
+
+        var findName = document.querySelector("#findName");
+
+        var findMajor = document.querySelector("#findMajor");
+
+        var findColor = document.querySelector("#findColor");
+
+        var findStatus = document.querySelector("#findStatus");
+
+        var insertBtn = document.querySelector("#insert");
+
+        var updateBtn = document.querySelector("#update");
+
+        var removeBtn = document.querySelector("#remove");
+
+        var findBtn = document.querySelector("#find");
+
+        function InsertData() {
+            set(ref(db,  enterID.value), {
+                name: enterName.value,
+                ID: enterID.value,
+                major: enterMajor.value,
+                color: enterColor.value,
+                status: enterStatus.value
+            })
+            .then(( )=>{
+                alert("Data added successfully!")
+            })
+
+            .catch( (error )=>{
+                alert(error)
+            });
+
+        }
+
+        function FindData() {
+            const dbref = ref(db);
+
+            get(child(dbref,  findID.value))
+            .then((snapshot)=>{
+                if (snapshot.exists()) {
+                    findName.innerHTML = "Name: " + snapshot.val().name;
+                    findImage.innerHTML = "Image: " +  snapshot.val().image;
+                    findColor.innerHTML = "Favorite Color: " + snapshot.val().color;
+                    findMajor.innerHTML = "Major: " + snapshot.val().major;
+                    findStatus.innerHTML = "Status: " + snapshot.val().status;
+                } else {
+                    alert("No Data Found");
+                }
+            })
+            .catch((error)=>{
+                alert(error);
+            })
+        }
+
+        function UpdateData() {
+            update(ref(db,  enterID.value), {
+                name: enterName.value,
+                ID: enterID.value,
+                major: enterMajor.value,
+                color: enterColor.value,
+                status: enterStatus.value
+            })
+            .then(()=>{
+                alert("Data Updated Successfully!");
+            })
+
+            .catch((error)=>{
+                alert(error);
+            });
+
+            
+        }
+
+        function RemoveData() {
+            remove(ref(db, enterID.value))
+            .then(()=>{
+                alert("Data Removed Successfully");
+            })
+            .catch((error)=>{
+                alert(error);
+            });
+        }
+
+        insertBtn.addEventListener("click" , InsertData);
+
+        updateBtn.addEventListener("click" , UpdateData);
+
+        removeBtn.addEventListener("click" , RemoveData);
+
+        findBtn.addEventListener("click" , FindData);
+      </script>
+
+</body>
+</html>
