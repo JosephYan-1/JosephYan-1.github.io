@@ -2,14 +2,19 @@
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q9080FLN3C"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q9080FLN3C"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-Q9080FLN3C');
-</script>
+    gtag('config', 'G-Q9080FLN3C');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My App Website</title>
+
+    <style>
         body{text-align: center;}
         #enterDetails {float: left; width: 50%; background-color: skyblue; color: floralwhite;}
         #findDetails {float: left; width: 50%; background-color: white; color: darkslategray;}
@@ -58,7 +63,7 @@
         <button id="find">FIND</button>
 
         <h3 id="findName" type="text"></h3>
-        <h3 id="findImage" type="image"></h3> 
+        <img id="findImage" type="image" src = ""></img> 
         <h3 id="findMajor" type = "text"></h3> 
         <h3 id="findStatus" type = "text"></h3> 
         <h3 id="findColor" type = "text"></h3> <br>
@@ -150,7 +155,7 @@
             .then((snapshot)=>{
                 if (snapshot.exists()) {
                     findName.innerHTML = "Name: " + snapshot.val().name;
-                    findImage.innerHTML = "Image: " +  snapshot.val().image;
+                    findImage.src = snapshot.val().image;
                     findColor.innerHTML = "Favorite Color: " + snapshot.val().color;
                     findMajor.innerHTML = "Major: " + snapshot.val().major;
                     findStatus.innerHTML = "Status: " + snapshot.val().status;
